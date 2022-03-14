@@ -1,0 +1,28 @@
+def connectbd():
+    try:
+        connection = cx_Oracle.connect(
+            username,
+            password,
+            dsn,
+            encoding = encoding
+        )
+        print('Conectado a la BD')
+        cursor = connection.cursor()
+        
+        #Query Fase 1
+        cursor.execute(queryT)
+        rows = cursor.fetchall()
+        print('')
+        table = [rows[0],rows[1],rows[2],rows[3],rows[4]]
+        header = ['Estado','Registrado','Procesado','Reproceso','Parametros']
+        text = tabulate(header, table, tablefmt="fancy_grid")
+        print(text)
+        """for row in rows:
+            table = [['Estado','Registrado','Procesado','Reproceso','Parametros'],[row[0],row[1],row[2],row[3],row[4]]]
+            text = tabulate(table, headers="firstrow", tablefmt="fancy_grid")    
+            print(text)"""
+        
+        connection.close()
+    except cx_Oracle.Error as e:
+        
+        print(f"Error de conexión: {e}")
